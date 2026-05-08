@@ -581,6 +581,84 @@
     margin-top: 4px;
   }
 
+  /* ── letter reveal animation ── */
+  .letter h1,
+  .letter .sub,
+  .letter .divider,
+  .letter p,
+  .letter .signoff {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(2px);
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s cubic-bezier(.2,.9,.3,1.05),
+      filter 0.9s ease;
+  }
+  .letter.reveal h1,
+  .letter.reveal .sub,
+  .letter.reveal .divider,
+  .letter.reveal p,
+  .letter.reveal .signoff {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .letter.reveal h1       { transition-delay: 0.05s; }
+  .letter.reveal .sub     { transition-delay: 0.30s; }
+  .letter.reveal .divider { transition-delay: 0.50s; }
+  .letter.reveal p:nth-of-type(1)  { transition-delay: 0.70s; }
+  .letter.reveal p:nth-of-type(2)  { transition-delay: 0.95s; }
+  .letter.reveal p:nth-of-type(3)  { transition-delay: 1.20s; }
+  .letter.reveal p:nth-of-type(4)  { transition-delay: 1.45s; }
+  .letter.reveal p:nth-of-type(5)  { transition-delay: 1.70s; }
+  .letter.reveal p:nth-of-type(6)  { transition-delay: 1.95s; }
+  .letter.reveal p:nth-of-type(7)  { transition-delay: 2.20s; }
+  .letter.reveal p:nth-of-type(8)  { transition-delay: 2.45s; }
+  .letter.reveal p:nth-of-type(9)  { transition-delay: 2.70s; }
+  .letter.reveal p:nth-of-type(10) { transition-delay: 2.95s; }
+  .letter.reveal .signoff { transition-delay: 3.30s; }
+
+  /* opening "다연아," gets a soft handwritten feel */
+  .letter .hello {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 24px;
+    color: #b35775;
+  }
+
+  /* accent line: soft highlight sweep after reveal */
+  .letter .accent {
+    position: relative;
+    display: inline-block;
+    background-image: linear-gradient(120deg, rgba(255, 200, 215, 0) 0%, rgba(255, 200, 215, 0.55) 50%, rgba(255, 200, 215, 0) 100%);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    background-position: 0 90%;
+    transition: background-size 1.4s ease;
+  }
+  .letter.reveal .accent {
+    background-size: 100% 60%;
+    transition-delay: 2.8s;
+  }
+
+  /* signoff: gentle ink-spread */
+  .letter.reveal .signoff {
+    animation: signOff 1.6s ease 3.4s 1 both;
+  }
+  @keyframes signOff {
+    0%   { letter-spacing: -2px; opacity: 0; transform: translateY(8px); }
+    60%  { letter-spacing: 2px;  opacity: 1; transform: translateY(0); }
+    100% { letter-spacing: 0;    opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .letter h1, .letter .sub, .letter .divider,
+    .letter p, .letter .signoff {
+      opacity: 1; transform: none; filter: none; transition: none;
+    }
+    .letter .accent { background-size: 100% 60%; }
+  }
+
   /* ── tetris game ── */
   body.locked .game { visibility: hidden; }
   .game {
@@ -1011,6 +1089,27 @@
     c.style.transition += ', opacity 0.7s ease';
     setTimeout(() => { c.style.opacity = '1'; }, 200 + i * 120);
   });
+
+  // letter: reveal line by line when scrolled into view
+  (function () {
+    const letterEl = document.querySelector('.letter');
+    if (!letterEl) return;
+    const trigger = () => letterEl.classList.add('reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            trigger();
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+      io.observe(letterEl);
+    } else {
+      // fallback: reveal immediately
+      trigger();
+    }
+  })();
 
   // ── tetris ──
   (function () {
