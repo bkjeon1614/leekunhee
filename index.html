@@ -696,6 +696,37 @@
     font-size: 17px;
     margin-bottom: 18px;
   }
+  .game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px auto 14px;
+    max-width: 360px;
+  }
+  .stat-inline {
+    flex: 1;
+    background: #fff7fa;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px rgba(229, 138, 167, 0.25);
+    text-align: center;
+    line-height: 1.1;
+  }
+  .stat-inline label {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #c98aa3;
+  }
+  .stat-inline span {
+    font-family: 'Gowun Batang', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #d96a8e;
+  }
+
   .game-area {
     display: flex;
     gap: 16px;
@@ -990,6 +1021,12 @@
     <h2>♡ T E T R I S  F O R  Y O U ♡</h2>
     <div class="game-sub">너랑 같이 한 판 어때?</div>
 
+    <div class="game-stats">
+      <div class="stat-inline"><label>SCORE</label><span id="score">0</span></div>
+      <div class="stat-inline"><label>LINES</label><span id="lines">0</span></div>
+      <div class="stat-inline"><label>LEVEL</label><span id="level">1</span></div>
+    </div>
+
     <div class="game-area">
       <div class="board-wrap">
         <canvas id="board" width="240" height="480"></canvas>
@@ -1000,9 +1037,6 @@
         </div>
       </div>
       <div class="side">
-        <div class="stat"><label>SCORE</label><span id="score">0</span></div>
-        <div class="stat"><label>LINES</label><span id="lines">0</span></div>
-        <div class="stat"><label>LEVEL</label><span id="level">1</span></div>
         <div class="stat"><label>NEXT</label><canvas id="nextCanvas" width="80" height="80"></canvas></div>
 
         <div class="game-controls" aria-label="game controls">
