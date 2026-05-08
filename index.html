@@ -69,26 +69,106 @@
     perspective: 1200px;
   }
 
+  /* ── gallery ── */
+  .gallery {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 50px 30px;
+    width: min(960px, 92vw);
+    padding: 20px 0 10px;
+  }
+  .gallery .photocard { margin: 0 auto; }
+
+  .gallery-title {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #b1577a;
+    font-size: 26px;
+    letter-spacing: 5px;
+  }
+  .gallery-title .amp { color: #e58aa7; }
+  .gallery-title small {
+    display: block;
+    font-family: 'Nanum Pen Script', cursive;
+    font-style: normal;
+    font-size: 18px;
+    color: #c98aa3;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
   /* ── photocard ── */
   .photocard {
-    width: min(360px, 88vw);
+    width: min(320px, 88vw);
     background: linear-gradient(165deg, #ffffff 0%, #fff7fb 100%);
     border-radius: 22px;
-    padding: 18px 18px 26px;
+    padding: 16px 16px 22px;
     box-shadow:
-      0 30px 60px -20px rgba(255, 122, 158, 0.35),
-      0 18px 36px -18px rgba(120, 70, 120, 0.25),
+      0 28px 56px -22px rgba(255, 122, 158, 0.35),
+      0 16px 32px -18px rgba(120, 70, 120, 0.25),
       inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-    transform: rotate(-2.2deg);
     transition: transform 0.6s cubic-bezier(.2,.9,.3,1.2), box-shadow 0.4s ease;
     position: relative;
   }
+  .photocard:nth-child(6n+1) { transform: rotate(-2.2deg); }
+  .photocard:nth-child(6n+2) { transform: rotate(1.6deg); }
+  .photocard:nth-child(6n+3) { transform: rotate(-1deg); }
+  .photocard:nth-child(6n+4) { transform: rotate(2.4deg); }
+  .photocard:nth-child(6n+5) { transform: rotate(-3deg); }
+  .photocard:nth-child(6n+6) { transform: rotate(1.2deg); }
   .photocard:hover {
-    transform: rotate(0deg) translateY(-6px) scale(1.015);
+    transform: rotate(0deg) translateY(-6px) scale(1.02);
     box-shadow:
       0 40px 70px -20px rgba(255, 122, 158, 0.45),
       0 24px 50px -22px rgba(120, 70, 120, 0.35),
       inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    z-index: 3;
+  }
+  .tape-blue {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(180, 200, 255, 0.85),
+      rgba(180, 200, 255, 0.85) 6px,
+      rgba(210, 222, 255, 0.85) 6px,
+      rgba(210, 222, 255, 0.85) 12px
+    ) !important;
+    box-shadow: 0 4px 10px rgba(120, 140, 220, 0.25) !important;
+  }
+  .tape-yellow {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 230, 160, 0.85),
+      rgba(255, 230, 160, 0.85) 6px,
+      rgba(255, 240, 200, 0.85) 6px,
+      rgba(255, 240, 200, 0.85) 12px
+    ) !important;
+    box-shadow: 0 4px 10px rgba(220, 180, 80, 0.22) !important;
+  }
+  .tape-mint {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(180, 240, 220, 0.85),
+      rgba(180, 240, 220, 0.85) 6px,
+      rgba(210, 250, 235, 0.85) 6px,
+      rgba(210, 250, 235, 0.85) 12px
+    ) !important;
+    box-shadow: 0 4px 10px rgba(80, 180, 160, 0.2) !important;
+  }
+  .tape-lavender {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(220, 200, 255, 0.85),
+      rgba(220, 200, 255, 0.85) 6px,
+      rgba(235, 220, 255, 0.85) 6px,
+      rgba(235, 220, 255, 0.85) 12px
+    ) !important;
+    box-shadow: 0 4px 10px rgba(160, 130, 220, 0.22) !important;
   }
 
   /* washi tape */
@@ -322,7 +402,8 @@
 
   /* ── password gate ── */
   body.locked { overflow: hidden; }
-  body.locked .stage,
+  body.locked .gallery,
+  body.locked .gallery-title,
   body.locked .letter,
   body.locked footer { visibility: hidden; }
 
@@ -539,17 +620,82 @@
 
   <!-- decorative sparkles & hearts injected by JS -->
 
-  <div class="stage">
+  <div class="gallery-title">
+    O U R <span class="amp"> ♡ </span> M O M E N T S
+    <small>너와 함께한 모든 순간</small>
+  </div>
+
+  <div class="gallery">
     <div class="photocard">
       <div class="tape"></div>
       <div class="frame">
-        <img src="assets/photo.jpg" alt="우리의 추억" />
+        <img src="assets/photo.jpg" alt="그 카페에서" loading="lazy" />
       </div>
       <div class="caption">
-        with you, always ♡
-        <span class="date">OUR  MOMENT</span>
+        그 카페에서, 너 ♡
+        <span class="date">CAFE  DAY</span>
       </div>
       <div class="stamp">For<br/>You<br/>♡</div>
+    </div>
+
+    <div class="photocard">
+      <div class="tape tape-yellow"></div>
+      <div class="frame">
+        <img src="assets/photo-3.jpg" alt="햇살 좋던 오후" loading="lazy" />
+      </div>
+      <div class="caption">
+        햇살 좋던 그 오후
+        <span class="date">GOLDEN  HOUR</span>
+      </div>
+      <div class="stamp">No.<br/>02<br/>♡</div>
+    </div>
+
+    <div class="photocard">
+      <div class="tape tape-mint"></div>
+      <div class="frame">
+        <img src="assets/photo-2.jpg" alt="제주에서 우리" loading="lazy" />
+      </div>
+      <div class="caption">
+        제주, 우리만의 시간
+        <span class="date">JEJU  ♡  US</span>
+      </div>
+      <div class="stamp">Trip<br/>♡<br/>'25</div>
+    </div>
+
+    <div class="photocard">
+      <div class="tape tape-blue"></div>
+      <div class="frame">
+        <img src="assets/photo-6.jpg" alt="바람 부는 그 길" loading="lazy" />
+      </div>
+      <div class="caption">
+        바람도 우리편이었어
+        <span class="date">WINDY  PATH</span>
+      </div>
+      <div class="stamp">Wind<br/>&amp;<br/>You</div>
+    </div>
+
+    <div class="photocard">
+      <div class="tape tape-lavender"></div>
+      <div class="frame">
+        <img src="assets/photo-5.jpg" alt="V ♡" loading="lazy" />
+      </div>
+      <div class="caption">
+        오늘도 V ♡ U
+        <span class="date">DAILY  ♡</span>
+      </div>
+      <div class="stamp">Hi<br/>♡<br/>You</div>
+    </div>
+
+    <div class="photocard">
+      <div class="tape"></div>
+      <div class="frame">
+        <img src="assets/photo-7.jpg" alt="또 V ♡" loading="lazy" />
+      </div>
+      <div class="caption">
+        보고싶다, 너
+        <span class="date">MISS  YOU</span>
+      </div>
+      <div class="stamp">For<br/>♡<br/>U</div>
     </div>
   </div>
 
@@ -657,15 +803,12 @@
     document.body.appendChild(s);
   }
 
-  // subtle parallax tilt on photocard
-  const card = document.querySelector('.photocard');
-  document.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 6;
-    const y = (e.clientY / window.innerHeight - 0.5) * 6;
-    card.style.transform = `rotate(${-2.2 + x * 0.2}deg) translateY(${y * 0.4}px)`;
-  });
-  document.addEventListener('mouseleave', () => {
-    card.style.transform = '';
+  // gentle entrance: stagger photocards into view
+  const cards = document.querySelectorAll('.photocard');
+  cards.forEach((c, i) => {
+    c.style.opacity = '0';
+    c.style.transition += ', opacity 0.7s ease';
+    setTimeout(() => { c.style.opacity = '1'; }, 200 + i * 120);
   });
 </script>
 </body>
