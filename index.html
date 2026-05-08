@@ -713,11 +713,14 @@
   }
   canvas#board { display: block; border-radius: 8px; background: #fff7fa; }
   .side {
-    min-width: 110px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     text-align: left;
+  }
+  @media (max-width: 560px) {
+    .side { width: 100%; max-width: 240px; }
   }
   .side .stat {
     background: #fff7fa;
@@ -749,26 +752,41 @@
   }
   .game-controls {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    max-width: 360px;
-    margin: 12px auto 0;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      ".      rotate ."
+      "left   down   right"
+      ".      drop   .";
+    gap: 6px;
+    margin-top: 6px;
   }
   .game-controls button {
     border: none;
-    padding: 12px 0;
+    padding: 10px 0;
     border-radius: 10px;
     font-family: 'Cormorant Garamond', serif;
     color: #fff;
     background: linear-gradient(135deg, #ff9eb5 0%, #e58aa7 100%);
-    box-shadow: 0 6px 14px -8px rgba(229, 138, 167, 0.7);
+    box-shadow: 0 5px 12px -7px rgba(229, 138, 167, 0.7);
     cursor: pointer;
     font-size: 18px;
-    transition: transform 0.15s ease;
+    line-height: 1;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
+  .game-controls button:hover {
+    box-shadow: 0 8px 16px -8px rgba(229, 138, 167, 0.85);
+  }
   .game-controls button:active { transform: translateY(1px); }
+  .game-controls .ctrl-rotate { grid-area: rotate; }
+  .game-controls .ctrl-left   { grid-area: left;   }
+  .game-controls .ctrl-down   { grid-area: down;   }
+  .game-controls .ctrl-right  { grid-area: right;  }
+  .game-controls .ctrl-drop   {
+    grid-area: drop;
+    background: linear-gradient(135deg, #e58aa7 0%, #c66789 100%);
+  }
   .game-overlay {
     position: absolute;
     inset: 0;
@@ -965,7 +983,7 @@
 
     <p>앞으로도 지금처럼 많이 웃고,<br/>재밌는 추억 계속 만들었으면 좋겠어.</p>
 
-    <div class="signoff">— from. me ♡</div>
+    <div class="signoff">— from. 건희가 ♡</div>
   </section>
 
   <section class="game">
@@ -986,15 +1004,15 @@
         <div class="stat"><label>LINES</label><span id="lines">0</span></div>
         <div class="stat"><label>LEVEL</label><span id="level">1</span></div>
         <div class="stat"><label>NEXT</label><canvas id="nextCanvas" width="80" height="80"></canvas></div>
-      </div>
-    </div>
 
-    <div class="game-controls">
-      <button data-act="left" aria-label="left">←</button>
-      <button data-act="rotate" aria-label="rotate">↻</button>
-      <button data-act="down" aria-label="down">↓</button>
-      <button data-act="drop" aria-label="hard drop">⤓</button>
-      <button data-act="right" aria-label="right">→</button>
+        <div class="game-controls" aria-label="game controls">
+          <button data-act="rotate" class="ctrl-rotate" aria-label="rotate">↻</button>
+          <button data-act="left"   class="ctrl-left"   aria-label="left">←</button>
+          <button data-act="down"   class="ctrl-down"   aria-label="down">↓</button>
+          <button data-act="right"  class="ctrl-right"  aria-label="right">→</button>
+          <button data-act="drop"   class="ctrl-drop"   aria-label="hard drop">⤓</button>
+        </div>
+      </div>
     </div>
 
     <div class="game-hint">← → ↓ &nbsp; ↑ rotate &nbsp; SPACE drop &nbsp; P pause</div>
