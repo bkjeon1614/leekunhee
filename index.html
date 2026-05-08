@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For You ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Gowun Batang', serif;
+    background:
+      radial-gradient(ellipse at 20% 10%, #ffe4ec 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, #ffd9c4 0%, transparent 50%),
+      linear-gradient(135deg, #fff5f0 0%, #fde6ef 50%, #f7e8ff 100%);
+    color: #4a3540;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    position: relative;
+  }
+
+  /* floating hearts background */
+  .heart {
+    position: fixed;
+    color: #ff9eb5;
+    opacity: 0.45;
+    font-size: 18px;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+    z-index: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(110vh) scale(0.6) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(-15vh) scale(1.1) rotate(360deg); opacity: 0; }
+  }
+
+  /* glittery sparkle */
+  .sparkle {
+    position: fixed;
+    width: 4px; height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px #ffd6e6;
+    opacity: 0.7;
+    animation: twinkle 3s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes twinkle {
+    0%, 100% { transform: scale(0.6); opacity: 0.3; }
+    50%      { transform: scale(1.3); opacity: 1; }
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    perspective: 1200px;
+  }
+
+  /* ── photocard ── */
+  .photocard {
+    width: min(360px, 88vw);
+    background: linear-gradient(165deg, #ffffff 0%, #fff7fb 100%);
+    border-radius: 22px;
+    padding: 18px 18px 26px;
+    box-shadow:
+      0 30px 60px -20px rgba(255, 122, 158, 0.35),
+      0 18px 36px -18px rgba(120, 70, 120, 0.25),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    transform: rotate(-2.2deg);
+    transition: transform 0.6s cubic-bezier(.2,.9,.3,1.2), box-shadow 0.4s ease;
+    position: relative;
+  }
+  .photocard:hover {
+    transform: rotate(0deg) translateY(-6px) scale(1.015);
+    box-shadow:
+      0 40px 70px -20px rgba(255, 122, 158, 0.45),
+      0 24px 50px -22px rgba(120, 70, 120, 0.35),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  }
+
+  /* washi tape */
+  .tape {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 110px;
+    height: 26px;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 182, 200, 0.85),
+      rgba(255, 182, 200, 0.85) 6px,
+      rgba(255, 210, 222, 0.85) 6px,
+      rgba(255, 210, 222, 0.85) 12px
+    );
+    box-shadow: 0 4px 10px rgba(255, 122, 158, 0.25);
+    border-radius: 2px;
+  }
+
+  /* photo frame */
+  .frame {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #f3dce4;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.05) contrast(1.02);
+    transition: transform 1.2s ease;
+  }
+  .photocard:hover .frame img { transform: scale(1.04); }
+
+  /* shimmer over photo */
+  .frame::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -120%;
+    width: 60%; height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    animation: shimmer 5s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%   { left: -120%; }
+    60%  { left: 130%; }
+    100% { left: 130%; }
+  }
+
+  /* polaroid caption */
+  .caption {
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Nanum Pen Script', cursive;
+    color: #b35775;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+  .caption .date {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #c98aa3;
+    font-size: 14px;
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  /* corner stamp */
+  .stamp {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px dashed #e58aa7;
+    color: #c66789;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    line-height: 1.2;
+    transform: rotate(-12deg);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(2px);
+  }
+
+  /* ── letter card ── */
+  .letter {
+    position: relative;
+    z-index: 2;
+    margin-top: 50px;
+    width: min(520px, 90vw);
+    background: linear-gradient(180deg, #fffdfb 0%, #fff5f7 100%);
+    border-radius: 18px;
+    padding: 38px 32px 34px;
+    box-shadow:
+      0 20px 50px -15px rgba(180, 90, 130, 0.25),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    transform: rotate(1.2deg);
+    overflow: hidden;
+  }
+  .letter::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed #f1c4d2;
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .letter h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    text-align: center;
+    color: #b1577a;
+    font-size: 28px;
+    letter-spacing: 4px;
+    margin-bottom: 6px;
+  }
+  .letter h1 .amp {
+    color: #e58aa7;
+    font-size: 32px;
+    vertical-align: middle;
+  }
+  .letter .sub {
+    text-align: center;
+    font-family: 'Nanum Pen Script', cursive;
+    color: #c98aa3;
+    font-size: 18px;
+    margin-bottom: 22px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px auto 22px;
+    width: 70%;
+    color: #e58aa7;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #f1c4d2, transparent);
+  }
+
+  .letter p {
+    font-family: 'Gowun Batang', serif;
+    font-size: 16px;
+    line-height: 2;
+    color: #5a3a4a;
+    text-align: center;
+    margin-bottom: 14px;
+    word-break: keep-all;
+  }
+  .letter p .accent {
+    color: #d96a8e;
+    font-weight: 700;
+  }
+  .letter .signoff {
+    margin-top: 22px;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 22px;
+    text-align: right;
+    color: #b35775;
+  }
+
+  /* small floating heart inside letter */
+  .letter .mini-heart {
+    position: absolute;
+    color: #ffb3c8;
+    font-size: 14px;
+    animation: bob 3s ease-in-out infinite;
+  }
+  .letter .mini-heart.h1 { top: 16px; left: 22px; }
+  .letter .mini-heart.h2 { top: 26px; right: 28px; animation-delay: .8s; }
+  .letter .mini-heart.h3 { bottom: 18px; left: 30px; animation-delay: 1.6s; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50%      { transform: translateY(-6px) rotate(8deg); }
+  }
+
+  /* footer */
+  footer {
+    margin-top: 50px;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #b97c93;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+  footer .pulse {
+    color: #ff5e85;
+    display: inline-block;
+    animation: beat 1.4s ease-in-out infinite;
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    25%      { transform: scale(1.25); }
+    50%      { transform: scale(0.95); }
+    75%      { transform: scale(1.15); }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 30px 16px; }
+    .letter { padding: 32px 22px 28px; }
+    .letter h1 { font-size: 22px; letter-spacing: 3px; }
+    .letter p { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- decorative sparkles & hearts injected by JS -->
+
+  <div class="stage">
+    <div class="photocard">
+      <div class="tape"></div>
+      <div class="frame">
+        <img src="assets/photo.jpg" alt="우리의 추억" />
+      </div>
+      <div class="caption">
+        with you, always ♡
+        <span class="date">OUR  MOMENT</span>
+      </div>
+      <div class="stamp">For<br/>You<br/>♡</div>
+    </div>
+  </div>
+
+  <section class="letter">
+    <span class="mini-heart h1">♡</span>
+    <span class="mini-heart h2">♡</span>
+    <span class="mini-heart h3">♡</span>
+
+    <h1>To. <span class="amp">♡</span> 너에게</h1>
+    <div class="sub">a little letter, just for you</div>
+    <div class="divider">✿</div>
+
+    <p>우리가 만난지 벌써...</p>
+    <p>이렇게 시간이 흘렀다는 게 믿기지 않아.</p>
+    <p>처음 너를 마주했던 그 순간이<br/>아직도 어제 일처럼 선명한데 말이야.</p>
+
+    <p>같이 걷던 골목, 마주 앉아 마시던 커피 한 잔,<br/>너의 작은 웃음소리까지 — <span class="accent">전부 내 보물이야.</span></p>
+
+    <p>앞으로도 우리, 이렇게 계속<br/>서로의 옆자리에서 웃을 수 있기를.</p>
+
+    <p>고마워, 그리고 사랑해.</p>
+
+    <div class="signoff">— from. me ♡</div>
+  </section>
+
+  <footer>
+    M A D E &nbsp; W I T H &nbsp; <span class="pulse">♥</span> &nbsp; F O R &nbsp; Y O U
+  </footer>
+
+<script>
+  // floating hearts
+  const heartChars = ['♡', '♥', '✿', '❀'];
+  function spawnHeart() {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (12 + Math.random() * 18) + 'px';
+    const dur = 8 + Math.random() * 8;
+    h.style.animationDuration = dur + 's';
+    h.style.color = ['#ff9eb5', '#ffb3c8', '#ffc4d6', '#e58aa7'][Math.floor(Math.random() * 4)];
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), dur * 1000);
+  }
+  setInterval(spawnHeart, 700);
+  for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 200);
+
+  // sparkles
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement('span');
+    s.className = 'sparkle';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.animationDuration = (2 + Math.random() * 2) + 's';
+    document.body.appendChild(s);
+  }
+
+  // subtle parallax tilt on photocard
+  const card = document.querySelector('.photocard');
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 6;
+    const y = (e.clientY / window.innerHeight - 0.5) * 6;
+    card.style.transform = `rotate(${-2.2 + x * 0.2}deg) translateY(${y * 0.4}px)`;
+  });
+  document.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+</script>
+</body>
+</html>
