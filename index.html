@@ -319,9 +319,223 @@
     .letter h1 { font-size: 22px; letter-spacing: 3px; }
     .letter p { font-size: 15px; }
   }
+
+  /* ── password gate ── */
+  body.locked { overflow: hidden; }
+  body.locked .stage,
+  body.locked .letter,
+  body.locked footer { visibility: hidden; }
+
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(ellipse at 30% 20%, #ffe4ec 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 85%, #ffd9c4 0%, transparent 50%),
+      linear-gradient(135deg, #fff5f0 0%, #fde6ef 50%, #f7e8ff 100%);
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  .gate.unlocked {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .gate-card {
+    width: min(380px, 88vw);
+    background: linear-gradient(165deg, #ffffff 0%, #fff7fb 100%);
+    border-radius: 22px;
+    padding: 38px 30px 32px;
+    text-align: center;
+    box-shadow:
+      0 30px 60px -20px rgba(255, 122, 158, 0.35),
+      0 18px 36px -18px rgba(120, 70, 120, 0.25),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    position: relative;
+  }
+  .gate-card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed #f1c4d2;
+    border-radius: 14px;
+    pointer-events: none;
+  }
+
+  .gate-lock {
+    font-size: 30px;
+    color: #e58aa7;
+    margin-bottom: 8px;
+    animation: lockBeat 2.4s ease-in-out infinite;
+  }
+  @keyframes lockBeat {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+
+  .gate-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: #b1577a;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+  }
+  .gate-card .gate-sub {
+    font-family: 'Nanum Pen Script', cursive;
+    color: #c98aa3;
+    font-size: 18px;
+    margin-bottom: 22px;
+  }
+
+  .gate-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Gowun Batang', serif;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 12px;
+    border: 1.5px solid #f1c4d2;
+    border-radius: 12px;
+    background: #fffafc;
+    color: #b35775;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  }
+  .gate-input::placeholder {
+    letter-spacing: 6px;
+    color: #e8b8c8;
+  }
+  .gate-input:focus {
+    border-color: #e58aa7;
+    box-shadow: 0 0 0 4px rgba(229, 138, 167, 0.15);
+  }
+  .gate-input.shake { animation: shake 0.4s ease; border-color: #e57a9a; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-8px); }
+    75%      { transform: translateX(8px); }
+  }
+
+  .gate-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #fff;
+    background: linear-gradient(135deg, #ff9eb5 0%, #e58aa7 100%);
+    cursor: pointer;
+    box-shadow: 0 8px 18px -8px rgba(229, 138, 167, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
+  }
+  .gate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 22px -10px rgba(229, 138, 167, 0.8);
+  }
+  .gate-btn:active { transform: translateY(0); }
+
+  .gate-hint {
+    margin-top: 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #c98aa3;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+  }
+  .gate-hint:hover { color: #b1577a; }
+  .gate-hint .hh { color: #ff7a9e; }
+
+  .gate-hint-box {
+    margin-top: 14px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+  }
+  .gate-hint-box.show {
+    max-height: 220px;
+    opacity: 1;
+  }
+  .hearts-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-size: 26px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .hearts-row span {
+    display: inline-block;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  .hearts-row span:nth-child(1) { color: #ffd6e0; transform: scale(0.7);  animation-delay: 0s;   }
+  .hearts-row span:nth-child(2) { color: #ff9eb5; transform: scale(1.15); animation-delay: 0.25s;}
+  .hearts-row span:nth-child(3) { color: #ffb6c8; transform: scale(0.85); animation-delay: 0.5s; }
+  .hearts-row span:nth-child(4) { color: #e58aa7; transform: scale(1);    animation-delay: 0.75s;}
+  .hint-text {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 17px;
+    color: #b35775;
+    line-height: 1.6;
+  }
+  .hint-text small {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #c98aa3;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
 </style>
 </head>
-<body>
+<body class="locked">
+
+  <!-- password gate -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <div class="gate-lock">♡</div>
+      <h2>FOR YOU ONLY</h2>
+      <div class="gate-sub">너에게만 보여주고 싶은 페이지</div>
+
+      <input
+        id="gatePw"
+        class="gate-input"
+        type="password"
+        inputmode="numeric"
+        maxlength="4"
+        autocomplete="off"
+        placeholder="● ● ● ●"
+        aria-label="password"
+      />
+      <button id="gateBtn" class="gate-btn" type="button">UNLOCK ♡</button>
+
+      <div class="gate-hint" id="gateHintToggle">
+        <span class="hh">♡</span> HINT <span class="hh">♡</span>
+      </div>
+      <div class="gate-hint-box" id="gateHintBox">
+        <div class="hearts-row" aria-hidden="true">
+          <span>♡</span><span>♥</span><span>♡</span><span>♥</span>
+        </div>
+        <div class="hint-text">
+          우리에게 특별한 그 날 ♡<br/>
+          <small>O U R &nbsp; S P E C I A L &nbsp; D A Y</small>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- decorative sparkles & hearts injected by JS -->
 
@@ -366,6 +580,55 @@
   </footer>
 
 <script>
+  // ── password gate ──
+  (function () {
+    const PW = '0425';
+    const KEY = 'lk_unlocked_v1';
+    const gate = document.getElementById('gate');
+    const input = document.getElementById('gatePw');
+    const btn = document.getElementById('gateBtn');
+    const hintToggle = document.getElementById('gateHintToggle');
+    const hintBox = document.getElementById('gateHintBox');
+
+    function unlock() {
+      gate.classList.add('unlocked');
+      document.body.classList.remove('locked');
+      try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      setTimeout(() => gate.remove(), 800);
+    }
+
+    function tryUnlock() {
+      if (input.value === PW) {
+        unlock();
+      } else {
+        input.classList.remove('shake');
+        // restart animation
+        void input.offsetWidth;
+        input.classList.add('shake');
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); tryUnlock(); }
+    });
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/g, '').slice(0, 4);
+      if (input.value.length === 4) tryUnlock();
+    });
+
+    hintToggle.addEventListener('click', () => hintBox.classList.toggle('show'));
+
+    try {
+      if (sessionStorage.getItem(KEY) === '1') unlock();
+    } catch (e) {}
+
+    // autofocus after a tick so it works on iOS too
+    setTimeout(() => input.focus(), 100);
+  })();
+
   // floating hearts
   const heartChars = ['♡', '♥', '✿', '❀'];
   function spawnHeart() {
